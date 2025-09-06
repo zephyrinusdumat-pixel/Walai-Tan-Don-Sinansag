@@ -16,18 +16,35 @@
       margin: auto;
       padding: 20px;
     }
-    header img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
+    /* Slideshow */
+    .slideshow-container {
+      position: relative;
+      max-width: 100%;
+      height: 400px;
+      margin: auto;
+      overflow: hidden;
       border-radius: 15px;
-      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .slides {
+      display: none;
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+    .fade {
+      animation-name: fade;
+      animation-duration: 1.5s;
+    }
+    @keyframes fade {
+      from {opacity: 0.4}
+      to {opacity: 1}
     }
     h1 {
       text-align: center;
       font-size: 28px;
       color: #333;
-      margin-bottom: 30px;
+      margin: 25px 0;
     }
     h2 {
       margin: 20px 0 10px;
@@ -46,6 +63,11 @@
       object-fit: cover;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
     }
     .contacts {
       text-align: center;
@@ -71,33 +93,68 @@
       font-size: 14px;
       color: #555;
     }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.9);
+    }
+    .lightbox-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 800px;
+    }
+    .lightbox-content img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     
-    <!-- Gambar headline homestay -->
-    <header>
-      <img src="headline.jpg" alt="Homestay Walai Tan'Don Sinansag">
-    </header>
-    
+    <!-- Slideshow -->
+    <div class="slideshow-container">
+      <img class="slides fade" src="headline1.jpg" alt="Headline 1">
+      <img class="slides fade" src="headline2.jpg" alt="Headline 2">
+      <img class="slides fade" src="headline3.jpg" alt="Headline 3">
+    </div>
+
     <h1>Homestay Walai Tan'Don Sinansag</h1>
     
     <!-- Gambar Rumah -->
     <h2>🏠 Rumah</h2>
     <div class="gallery">
-      <img src="rumah.jpg" alt="Gambar Rumah Homestay">
+      <img src="rumah.jpg" alt="Gambar Rumah Homestay" onclick="openLightbox(this.src)">
     </div>
     
     <!-- Gambar bilik + ruang -->
     <h2>🛏️ Bilik & Ruang</h2>
     <div class="gallery">
-      <img src="bilik1.jpg" alt="Bilik 1">
-      <img src="bilik2.jpg" alt="Bilik 2">
-      <img src="bilik3.jpg" alt="Bilik 3">
-      <img src="bilik4.jpg" alt="Bilik 4">
-      <img src="dapur.jpg" alt="Dapur">
-      <img src="tandas.jpg" alt="Tandas">
+      <img src="bilik1.jpg" alt="Bilik 1" onclick="openLightbox(this.src)">
+      <img src="bilik2.jpg" alt="Bilik 2" onclick="openLightbox(this.src)">
+      <img src="bilik3.jpg" alt="Bilik 3" onclick="openLightbox(this.src)">
+      <img src="bilik4.jpg" alt="Bilik 4" onclick="openLightbox(this.src)">
+      <img src="dapur.jpg" alt="Dapur" onclick="openLightbox(this.src)">
+      <img src="tandas.jpg" alt="Tandas" onclick="openLightbox(this.src)">
     </div>
     
     <!-- Link WhatsApp -->
@@ -112,5 +169,39 @@
       © 2025 Homestay Walai Tan'Don Sinansag
     </footer>
   </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="close">&times;</span>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="">
+    </div>
+  </div>
+
+  <!-- Script slideshow -->
+  <script>
+    let slideIndex = 0;
+    showSlides();
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("slides");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {slideIndex = 1}
+      slides[slideIndex-1].style.display = "block";
+      setTimeout(showSlides, 4000); // tukar gambar setiap 4 saat
+    }
+
+    // Lightbox functions
+    function openLightbox(src) {
+      document.getElementById("lightbox").style.display = "block";
+      document.getElementById("lightbox-img").src = src;
+    }
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
 </body>
 </html>
